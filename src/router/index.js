@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Display from '../views/ChartDisplay.vue'
 import linechart from '../components/LineChartComponent.vue'
 import columnbar from '../components/ColumnBarChart.vue'
 import RowBarChart from '../components/RowBarChart.vue'
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/piechart',
       name: 'piechart',
       component: PieChart,
+    },
+    {
+      path: '/display',
+      name: 'display',
+      component: Display,
     },
   ],
 })

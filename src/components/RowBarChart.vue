@@ -1,14 +1,23 @@
 <template>
   <div class="chart-container">
     <div id="RowChartContainer" ref="RowChartContainer"></div>
-    <img src="@/assets/chart3.png" alt="Line Chart Example" class="example-image" />
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, defineProps } from 'vue'
 import Highcharts from 'highcharts'
-import { data, categories } from '../mockdata/rowchartdata'
+
+const props = defineProps({
+  values: {
+    type: Array,
+    required: true,
+  },
+  categories: {
+    type: Array,
+    required: true,
+  },
+})
 
 const RowChartContainer = ref(null)
 
@@ -24,7 +33,7 @@ const formatValue = (value) => {
 
 onMounted(() => {
   const tickInterval = 2500000000 // 設置刻度間隔
-  const yAxisMax = Math.ceil(Math.max(...data) / tickInterval) * tickInterval // 獲取比數據最大值大的最小tickInterval
+  const yAxisMax = Math.ceil(Math.max(...props.values) / tickInterval) * tickInterval // 獲取比數據最大值大的最小tickInterval
 
   Highcharts.chart(RowChartContainer.value, {
     chart: {
@@ -34,7 +43,7 @@ onMounted(() => {
       text: 'Horizontal Bar Chart',
     },
     xAxis: {
-      categories,
+      categories: props.categories,
       labels: {
         align: 'left', // 將標籤對齊到左側
         x: 0, // 調整 x 偏移量
@@ -58,23 +67,29 @@ onMounted(() => {
     },
     plotOptions: {
       series: {
-        grouppadding: 0.5,
+        groupPadding: 0.5,
         enableMouseTracking: false,
         borderRadius: 3,
         borderWidth: 0,
         pointWidth: 10,
       },
     },
+    legend: {
+      enabled: false,
+    },
+    credits: {
+      enabled: false,
+    },
     series: [
       {
         name: 'Background',
-        data: Array(data.length).fill(yAxisMax), // 灰色長條的數據，最大值為刻度最大值
+        data: Array(props.values.length).fill(yAxisMax), // 灰色長條的數據，最大值為刻度最大值
         color: '#E5E5EF', // 灰色
         grouping: false, // 使其與其他 bar 重疊
         dataLabels: {
           enabled: true,
           formatter() {
-            return formatValue(data[this.point.index]) // 顯示不同標籤的值並換算單位
+            return formatValue(props.values[this.point.index]) // 顯示不同標籤的值並換算單位
           },
           align: 'right', // 調整標籤對齊方式
           x: 0, // 調整 x 偏移量
@@ -84,7 +99,7 @@ onMounted(() => {
       },
       {
         name: 'Data One',
-        data,
+        data: props.values,
         color: '#80B0B4',
       },
     ],

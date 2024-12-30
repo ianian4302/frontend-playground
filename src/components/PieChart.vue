@@ -5,11 +5,19 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, defineProps } from 'vue'
 import Highcharts from 'highcharts'
 
-const PieChartContainer = ref(null)
 const colorPalette = ['#80B0B4', '#90A4B5', '#A4C2F4', '#B5EAD7', '#FFDAC1', '#FF9AA2']
+const props = defineProps({
+  data: {
+    type: Array,
+    required: true,
+  },
+})
+
+const PieChartContainer = ref(null)
+
 const formatValue = (value) => {
   if (value >= 100000000) {
     return `＄${(value / 100000000).toFixed(1)}億`
@@ -58,20 +66,12 @@ onMounted(() => {
     },
     series: [
       {
-        name: 'Share',
-        innerSize: '40%',
-        data: [
-          {
-            name: '全市場',
-            y: 20350000000,
-            color: colorPalette[0], // Change color
-          },
-          {
-            name: '飲品',
-            y: 1960000000,
-            color: colorPalette[1], // Change color
-          },
-        ],
+        colorByPoint: true,
+        data: props.data.map((item) => ({
+          name: item.name,
+          y: item.value,
+        })),
+        colors: colorPalette,
       },
     ],
   })
@@ -81,6 +81,6 @@ onMounted(() => {
 <style scoped>
 .chart-container {
   width: 100%;
-  height: 600px;
+  height: 700px;
 }
 </style>

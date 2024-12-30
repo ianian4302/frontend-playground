@@ -11,6 +11,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/columnbar">Columnbar</RouterLink>
       <RouterLink to="/rowbarchart">Rowbar</RouterLink>
       <RouterLink to="/piechart">Piechart</RouterLink>
+      <RouterLink to="/display">Chartdisplay</RouterLink>
     </nav>
   </header>
 

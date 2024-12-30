@@ -1,29 +1,22 @@
 <template>
   <div class="chart-container">
     <div id="linechart-container"></div>
-    <img src="@/assets/linechart_example.png" alt="Line Chart Example" class="example-image" />
   </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
 import Highcharts from 'highcharts'
 
 const props = defineProps({
   data: {
-    type: Array,
+    type: Object,
     required: true,
-  },
-  curve: {
-    type: Number,
-    default: 0, // Default curve value
   },
 })
 
-const mockData = ref([126, 178, 140, 196, 115, 55, 130, 177, 180, 169, 245])
-
 const renderChart = () => {
-  const data = props.data && props.data.length ? props.data : mockData.value
+  const data = props.data[0].values
   const max = Math.max(...data) + 10
   const min = Math.min(...data) - 10
 
@@ -40,7 +33,6 @@ const renderChart = () => {
       },
       max,
       min,
-      labels: {},
     },
     tooltip: {
       backgroundColor: 'white',
@@ -92,7 +84,6 @@ const renderChart = () => {
 }
 
 watch(() => props.data, renderChart)
-watch(() => props.curve, renderChart)
 
 onMounted(renderChart)
 </script>

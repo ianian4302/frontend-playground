@@ -1,7 +1,6 @@
 <template>
   <div class="chart-container">
     <div id="columnbar-container"></div>
-    <img src="@/assets/chart2.png" alt="Line Chart Example" class="example-image" />
   </div>
 </template>
 
@@ -11,36 +10,17 @@ import Highcharts from 'highcharts'
 
 const props = defineProps({
   data: {
-    type: Array,
+    type: Object,
     required: true,
   },
 })
 
-const mockData = ref([
-  {
-    name: '2024',
-    data: [
-      15400000000, 15400000000, 20500000000, 15400000000, 15400000000, 20500000000, 15400000000,
-      15400000000, 15400000000, 15400000000, 0, 0,
-    ],
-    color: '#80B0B4', // Change column color
-  },
-  {
-    name: '2023',
-    data: [
-      17400000000, 10600000000, 16500000000, 10600000000, 17400000000, 16500000000, 10600000000,
-      10600000000, 10600000000, 10600000000, 10600000000, 10600000000,
-    ],
-    color: '#A6B597', // Change column color
-  },
-])
-
 const growthRate = ref(
-  mockData.value[0].data.map((value, index) => {
-    const previousValue = mockData.value[1].data[index]
-    const currentValue = mockData.value[0].data[index]
+  props.data[0].data.map((value, index) => {
+    const previousValue = props.data[1].data[index]
+    const currentValue = props.data[0].data[index]
     if (previousValue === 0) {
-      return 0 // 避免除以零
+      return 0 // Avoid division by zero
     }
     return (((currentValue - previousValue) / previousValue) * 100).toFixed(1)
   }),
@@ -57,7 +37,6 @@ const formatValue = (value) => {
 }
 
 const renderChart = () => {
-  const datamocked = props.data && props.data.length ? props.data : mockData.value
   Highcharts.chart('columnbar-container', {
     chart: {
       type: 'column',
@@ -95,33 +74,33 @@ const renderChart = () => {
       backgroundColor: 'white',
       borderColor: 'transparent',
       style: {
-        color: '#333333', // 文字顏色
-        fontSize: '14px', // 文字大小
-        fontWeight: 'bold', // 文字粗細
+        color: '#333333',
+        fontSize: '14px',
+        fontWeight: 'bold',
       },
       shared: true,
-      headerFormat: '<b style="color: #80B0B4;">銷售金額成長率 {growthRate.value} % </b><br/>', // 標題格式
+      headerFormat: '<b style="color: #80B0B4;">銷售金額成長率 {growthRate.value} % </b><br/>',
       pointFormat:
-        '<span style="color:{series.color}; font-size: 16px;">\u25CF</span> {point.yFormatted} <br/>', // 點格式
+        '<span style="color:{series.color}; font-size: 16px;">\u25CF</span> {point.yFormatted} <br/>',
     },
     series: [
       {
         name: '2024',
-        data: datamocked[0].data.map((value, index) => ({
+        data: props.data[0].data.map((value, index) => ({
           y: value,
           yFormatted: formatValue(value),
           growthRate: growthRate.value[index],
         })),
-        color: '#80B0B4', // Change column color
+        color: '#80B0B4',
       },
       {
         name: '2023',
-        data: datamocked[1].data.map((value, index) => ({
+        data: props.data[1].data.map((value, index) => ({
           y: value,
           yFormatted: formatValue(value),
           growthRate: growthRate.value[index],
         })),
-        color: '#A6B597', // Change column color
+        color: '#A6B597',
       },
     ],
     plotOptions: {
