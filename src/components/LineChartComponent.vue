@@ -43,7 +43,25 @@ const renderChart = () => {
     series: [
       {
         name: 'Data',
-        data,
+        data: props.data[0].values,
+        lineWidth: 2,
+        color: '#80B0B4', // Change line color
+        marker: {
+          enabled: true, // Always display markers
+          fillColor: '#80B0B4', // Change marker fill color
+          lineColor: '#80B0B4', // Change marker line color
+        },
+        states: {
+          hover: {
+            lineWidth: 3,
+            color: '#80B0B4', // Change hover state color
+          },
+        },
+        enableMouseTracking: true,
+      },
+      {
+        name: 'Data',
+        data: props.data[1].values,
         lineWidth: 2,
         color: '#80B0B4', // Change line color
         marker: {
