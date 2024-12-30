@@ -10,6 +10,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/linechart">Linechart</RouterLink>
       <RouterLink to="/columnbar">Columnbar</RouterLink>
       <RouterLink to="/rowbarchart">Rowbar</RouterLink>
+      <RouterLink to="/piechart">Piechart</RouterLink>
     </nav>
   </header>
 

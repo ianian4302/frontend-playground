@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import linechart from '../components/LineChartComponent.vue'
 import columnbar from '../components/ColumnBarChart.vue'
 import RowBarChart from '../components/RowBarChart.vue'
+import PieChart from '../components/PieChart.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/rowbarchart',
       name: 'rowbarchart',
       component: RowBarChart,
+    },
+    {
+      path: '/piechart',
+      name: 'piechart',
+      component: PieChart,
     },
   ],
 })
