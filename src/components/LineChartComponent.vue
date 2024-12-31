@@ -35,6 +35,8 @@ const renderChart = () => {
       min,
     },
     tooltip: {
+      shared: true,
+      crosshairs: true,
       backgroundColor: 'white',
       borderColor: 'transparent',
       headerFormat: '<b style="color: #80B0B4;">金額總覽</b><br/>',
